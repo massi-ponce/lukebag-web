@@ -1,0 +1,34 @@
+---
+// Isotipo de Lukebag dibujado en SVG (basado en src/assets/logo-original.svg).
+// "conTexto" muestra la palabra LUKEBAG al lado.
+interface Props {
+  conTexto?: boolean;
+  class?: string;
+}
+const { conTexto = true, class: clase = "" } = Astro.props;
+---
+
+<span class:list={["inline-flex items-center gap-3", clase]}>
+  <svg viewBox="0 0 1048 1048" class="h-9 w-9 shrink-0" aria-hidden="true">
+    <rect width="1048" height="1048" rx="90" fill="#fff"></rect>
+    <rect
+      x="7.5"
+      y="7.5"
+      width="1033"
+      height="1033"
+      rx="84"
+      fill="none"
+      stroke="#f00"
+      stroke-width="15"></rect>
+    <rect x="28" y="28" width="482" height="992" rx="40" fill="#000"></rect>
+    <rect x="538" y="28" width="482" height="484" rx="40" fill="#f00"></rect>
+    <rect x="538" y="536" width="482" height="484" rx="40" fill="#000"></rect>
+  </svg>
+  {
+    conTexto && (
+      <span class="font-display text-xl font-bold tracking-[0.12em]">
+        LUKEBAG
+      </span>
+    )
+  }
+</span>

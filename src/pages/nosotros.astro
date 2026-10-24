@@ -1,0 +1,105 @@
+---
+import { Image } from "astro:assets";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import EncabezadoPagina from "../components/EncabezadoPagina.astro";
+import LlamadoCotizar from "../components/LlamadoCotizar.astro";
+import fotoTaller from "../assets/sitio/taller.webp";
+
+// Cifras de ejemplo: reemplázalas por las reales.
+const cifras = [
+  { valor: "+20", texto: "años de experiencia" },
+  { valor: "+500", texto: "clientes atendidos" },
+  { valor: "100%", texto: "productos a medida" },
+];
+
+const valores = [
+  {
+    titulo: "Calidad",
+    texto: "Materiales seleccionados y costuras reforzadas en cada pieza",
+  },
+  {
+    titulo: "Cercanía",
+    texto: "Trato directo con quien fabrica tu producto, de principio a fin",
+  },
+  {
+    titulo: "Compromiso",
+    texto:
+      "Cumplimos plazos y acompañamos a nuestros clientes después de la entrega",
+  },
+];
+---
+
+<BaseLayout
+  titulo="Nosotros"
+  descripcion="Conoce a Lukebag: empresa chilena de confección textil e industrial a medida."
+>
+  <EncabezadoPagina
+    etiqueta="Nosotros"
+    titulo="Una empresa familiar que fabrica a la medida de cada cliente"
+    bajada="Texto de ejemplo: aquí va la historia de Lukebag, cómo empezó, qué la motiva y qué la diferencia."
+  />
+
+  <section
+    class="mx-auto grid max-w-7xl items-center gap-12 px-4 py-20 sm:px-6 lg:grid-cols-2"
+  >
+    <div class="overflow-hidden rounded-2xl">
+      <Image
+        src={fotoTaller}
+        alt="Taller de Lukebag"
+        widths={[600, 1200]}
+        sizes="(min-width: 1024px) 50vw, 100vw"
+      />
+    </div>
+    <div>
+      <p class="etiqueta">Nuestra historia</p>
+      <h2 class="mt-3 font-display text-3xl font-bold">
+        Oficio textil con mirada industrial
+      </h2>
+      <div class="mt-5 space-y-4 text-neutral-600">
+        <p>
+          Lukebag nace con la idea de fabricar productos textiles resistentes y
+          bien hechos, pensados para el uso real de cada cliente. Con los años,
+          la experiencia en bolsos y mochilas se extendió a la protección de
+          maquinaria y equipos industriales.
+        </p>
+        <p>
+          Hoy trabajamos con empresas, instituciones y personas que buscan algo
+          hecho a medida: desde una mochila con el logo de su empresa hasta la
+          funda de un generador instalado a orillas del mar.
+        </p>
+      </div>
+      <dl class="mt-10 grid grid-cols-3 gap-6 border-t border-neutral-200 pt-8">
+        {
+          cifras.map((c) => (
+            <div>
+              <dt class="sr-only">{c.texto}</dt>
+              <dd class="font-display text-3xl font-bold text-marca">
+                {c.valor}
+              </dd>
+              <dd class="mt-1 text-sm text-neutral-600">{c.texto}</dd>
+            </div>
+          ))
+        }
+      </dl>
+    </div>
+  </section>
+
+  <section class="bg-tinta text-white">
+    <div class="mx-auto max-w-7xl px-4 py-20 sm:px-6">
+      <p class="etiqueta">Lo que nos mueve</p>
+      <div class="mt-8 grid gap-6 md:grid-cols-3">
+        {
+          valores.map((v) => (
+            <div class="rounded-2xl border border-white/10 p-8">
+              <div class="h-1 w-8 bg-marca" />
+              <h3 class="mt-5 font-display text-xl font-bold">{v.titulo}</h3>
+              <p class="mt-2 text-sm text-neutral-400">{v.texto}</p>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <LlamadoCotizar />
+</BaseLayout>

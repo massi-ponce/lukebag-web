@@ -1,0 +1,57 @@
+---
+import { Image } from "astro:assets";
+import type { Producto } from "../data/catalogo";
+import { foto } from "../lib/fotos";
+import { enlaceWhatsApp } from "../data/sitio";
+
+interface Props {
+  producto: Producto;
+}
+const { producto } = Astro.props;
+---
+
+<article
+  class="group flex flex-col overflow-hidden rounded-2xl border border-neutral-200 bg-white transition hover:-translate-y-1 hover:border-neutral-900 hover:shadow-xl"
+>
+  <div class="relative aspect-square overflow-hidden bg-tinta">
+    <Image
+      src={foto(producto.foto)}
+      alt={producto.nombre}
+      widths={[400, 800]}
+      sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+      class="h-full w-full object-cover transition duration-500 group-hover:scale-105"
+    />
+    <span
+      class="absolute top-3 left-3 rounded-full bg-white/90 px-3 py-1 text-xs font-semibold text-neutral-900"
+    >
+      A medida
+    </span>
+  </div>
+  <div class="flex flex-1 flex-col p-6">
+    <h3 class="font-display text-lg font-bold">{producto.nombre}</h3>
+    <p class="mt-2 text-sm text-neutral-600">{producto.descripcion}</p>
+    <ul class="mt-4 space-y-1.5 text-sm text-neutral-700">
+      {
+        producto.caracteristicas.map((c) => (
+          <li class="flex gap-2">
+            <span class="mt-2 h-1.5 w-1.5 shrink-0 bg-marca" />
+            {c}
+          </li>
+        ))
+      }
+    </ul>
+    <a
+      href={enlaceWhatsApp(
+        `Hola Lukebag, quisiera cotizar: ${producto.nombre}.`,
+      )}
+      target="_blank"
+      rel="noopener"
+      class="mt-6 inline-flex items-center gap-2 pt-2 text-sm font-semibold text-marca hover:text-marca-oscuro"
+    >
+      Cotizar este producto
+      <span aria-hidden="true" class="transition group-hover:translate-x-1"
+        >→</span
+      >
+    </a>
+  </div>
+</article>

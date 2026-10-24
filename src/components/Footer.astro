@@ -1,0 +1,58 @@
+---
+import Logo from "./Logo.astro";
+import { SITIO, enlaceWhatsApp } from "../data/sitio";
+import { categorias } from "../data/catalogo";
+import { url } from "../lib/rutas";
+
+const anio = new Date().getFullYear();
+---
+
+<footer class="bg-tinta text-neutral-400">
+  <div class="mx-auto grid max-w-7xl gap-10 px-4 py-14 sm:px-6 md:grid-cols-4">
+    <div class="md:col-span-2">
+      <Logo class="text-white" />
+      <p class="mt-4 max-w-sm text-sm leading-relaxed">{SITIO.descripcion}</p>
+    </div>
+
+    <div>
+      <h3 class="font-display text-sm font-semibold text-white">Productos</h3>
+      <ul class="mt-4 space-y-2 text-sm">
+        {
+          categorias.map((c) => (
+            <li>
+              <a href={url(`/catalogo/${c.slug}/`)} class="hover:text-white">
+                {c.nombre}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+
+    <div>
+      <h3 class="font-display text-sm font-semibold text-white">Contacto</h3>
+      <ul class="mt-4 space-y-2 text-sm">
+        <li>
+          <a
+            href={enlaceWhatsApp()}
+            target="_blank"
+            rel="noopener"
+            class="hover:text-white">{SITIO.telefonoVisible}</a>
+        </li>
+        <li>
+          <a href={`mailto:${SITIO.email}`} class="hover:text-white"
+            >{SITIO.email}</a>
+        </li>
+        <li>{SITIO.ubicacion}</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="border-t border-white/10">
+    <div
+      class="mx-auto flex max-w-7xl flex-col gap-2 px-4 py-6 text-xs sm:flex-row sm:justify-between sm:px-6"
+    >
+      <p>© {anio} {SITIO.nombre}. Todos los derechos reservados.</p>
+    </div>
+  </div>
+</footer>

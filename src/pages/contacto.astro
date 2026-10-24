@@ -1,0 +1,133 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import EncabezadoPagina from "../components/EncabezadoPagina.astro";
+import { SITIO, enlaceWhatsApp } from "../data/sitio";
+import { categorias } from "../data/catalogo";
+
+const canales = [
+  {
+    titulo: "WhatsApp",
+    valor: SITIO.telefonoVisible,
+    href: enlaceWhatsApp(),
+    nota: "La forma más directa y rápida de cotizar",
+  },
+  {
+    titulo: "Correo",
+    valor: SITIO.email,
+    href: `mailto:${SITIO.email}`,
+    nota: "Ideal para enviar planos o archivos",
+  },
+  {
+    titulo: "Ubicación",
+    valor: SITIO.ubicacion,
+    href: undefined,
+  },
+];
+---
+
+<BaseLayout
+  titulo="Contacto"
+  descripcion="Cotiza tu producto a medida con Lukebag por WhatsApp, correo o formulario."
+>
+  <EncabezadoPagina
+    etiqueta="Contacto"
+    titulo="Hablemos de tu proyecto"
+    bajada="Cuéntanos qué necesitas y te enviamos una cotización. Mientras más detalles (medidas, cantidades, fotos), más precisa será."
+  />
+
+  <section
+    class="mx-auto grid max-w-7xl gap-12 px-4 py-16 sm:px-6 lg:grid-cols-5"
+  >
+    <div class="space-y-4 lg:col-span-2">
+      {
+        canales.map((c) => (
+          <div class="rounded-2xl border border-neutral-200 p-6">
+            <p class="etiqueta">{c.titulo}</p>
+            {c.href ? (
+              <a
+                href={c.href}
+                target="_blank"
+                rel="noopener"
+                class="mt-2 block font-display text-xl font-bold hover:text-marca"
+              >
+                {c.valor}
+              </a>
+            ) : (
+              <p class="mt-2 font-display text-xl font-bold">{c.valor}</p>
+            )}
+            <p class="mt-1 text-sm text-neutral-500">{c.nota}</p>
+          </div>
+        ))
+      }
+    </div>
+
+    <!--
+      Formulario: los mensajes llegan a tu correo a través de Formspree (plan gratuito).
+      Solo debes cambiar "formspreeId" en src/data/sitio.ts.
+    -->
+    <form
+      action={`https://formspree.io/f/${SITIO.formspreeId}`}
+      method="POST"
+      class="rounded-2xl bg-neutral-100 p-6 sm:p-8 lg:col-span-3"
+    >
+      <h2 class="font-display text-2xl font-bold">Solicita una cotización</h2>
+      <div class="mt-6 grid gap-5 sm:grid-cols-2">
+        <label class="block">
+          <span class="text-sm font-medium">Nombre y apellido</span>
+          <input
+            name="nombre"
+            required
+            class="mt-1 w-full rounded-lg border border-neutral-300 bg-white px-4 py-3 focus:border-marca focus:outline-none"
+          />
+        </label>
+        <label class="block">
+          <span class="text-sm font-medium">Empresa (opcional)</span>
+          <input
+            name="empresa"
+            class="mt-1 w-full rounded-lg border border-neutral-300 bg-white px-4 py-3 focus:border-marca focus:outline-none"
+          />
+        </label>
+        <label class="block">
+          <span class="text-sm font-medium">Correo</span>
+          <input
+            type="email"
+            name="email"
+            required
+            class="mt-1 w-full rounded-lg border border-neutral-300 bg-white px-4 py-3 focus:border-marca focus:outline-none"
+          />
+        </label>
+        <label class="block">
+          <span class="text-sm font-medium">Teléfono</span>
+          <input
+            type="tel"
+            name="telefono"
+            class="mt-1 w-full rounded-lg border border-neutral-300 bg-white px-4 py-3 focus:border-marca focus:outline-none"
+          />
+        </label>
+        <label class="block sm:col-span-2">
+          <span class="text-sm font-medium">¿Qué te interesa?</span>
+          <select
+            name="producto"
+            class="mt-1 w-full rounded-lg border border-neutral-300 bg-white px-4 py-3 focus:border-marca focus:outline-none"
+          >
+            {categorias.map((c) => <option>{c.nombre}</option>)}
+            <option>Otro</option>
+          </select>
+        </label>
+        <label class="block sm:col-span-2">
+          <span class="text-sm font-medium">Describe lo que necesitas</span>
+          <textarea
+            name="mensaje"
+            rows="5"
+            required
+            placeholder="Medidas, cantidades, colores, si lleva logo, plazos, etc."
+            class="mt-1 w-full rounded-lg border border-neutral-300 bg-white px-4 py-3 focus:border-marca focus:outline-none"
+          ></textarea>
+        </label>
+      </div>
+      <button type="submit" class="boton-primario mt-6 w-full sm:w-auto"
+        >Enviar solicitud</button
+      >
+    </form>
+  </section>
+</BaseLayout>

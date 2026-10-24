@@ -1,0 +1,26 @@
+---
+// Encabezado oscuro que se usa al inicio de cada página interior.
+interface Props {
+  etiqueta: string;
+  titulo: string;
+  bajada?: string;
+}
+const { etiqueta, titulo, bajada } = Astro.props;
+---
+
+<section class="fondo-grilla relative overflow-hidden bg-tinta text-white">
+  <div
+    class="absolute -top-24 -right-24 h-72 w-72 rounded-[3rem] bg-marca/20 blur-3xl"
+  >
+  </div>
+  <div class="relative mx-auto max-w-7xl px-4 py-16 sm:px-6 md:py-20">
+    <p class="etiqueta">{etiqueta}</p>
+    <h1
+      class="mt-3 max-w-3xl font-display text-4xl font-bold tracking-tight md:text-5xl"
+    >
+      {titulo}
+    </h1>
+    {bajada && <p class="mt-5 max-w-2xl text-lg text-neutral-300">{bajada}</p>}
+    <slot />
+  </div>
+</section>

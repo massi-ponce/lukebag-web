@@ -1,0 +1,66 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import EncabezadoPagina from "../../components/EncabezadoPagina.astro";
+import TarjetaProducto from "../../components/TarjetaProducto.astro";
+import LlamadoCotizar from "../../components/LlamadoCotizar.astro";
+import { categorias, productosDe } from "../../data/catalogo";
+import { url } from "../../lib/rutas";
+---
+
+<BaseLayout
+  titulo="Catálogo"
+  descripcion="Catálogo de bolsos, mochilas, maletines, estuches, bananos y fundas industriales a medida."
+>
+  <EncabezadoPagina
+    etiqueta="Catálogo"
+    titulo="Todo lo que podemos fabricar para ti"
+    bajada="Cada producto se hace a medida: elige el modelo base y lo adaptamos a tus medidas, materiales, colores y logo."
+  >
+    <nav class="mt-8 flex flex-wrap gap-2" aria-label="Categorías">
+      {
+        categorias.map((c) => (
+          <a
+            href={`#${c.slug}`}
+            class="rounded-full border border-white/20 px-4 py-2 text-sm text-neutral-300 transition hover:border-marca hover:text-white"
+          >
+            {c.nombre}
+          </a>
+        ))
+      }
+    </nav>
+  </EncabezadoPagina>
+
+  <div class="mx-auto max-w-7xl px-4 py-16 sm:px-6">
+    {
+      categorias.map((c) => (
+        <section
+          id={c.slug}
+          class="scroll-mt-24 border-b border-neutral-200 py-12 first:pt-0 last:border-0"
+        >
+          <div class="flex flex-wrap items-end justify-between gap-4">
+            <div>
+              <h2 class="font-display text-3xl font-bold">{c.nombre}</h2>
+              <p class="mt-2 text-neutral-600">{c.descripcion}</p>
+            </div>
+            <a
+              href={url(`/catalogo/${c.slug}/`)}
+              class="text-sm font-semibold text-marca hover:text-marca-oscuro"
+            >
+              Ver categoría →
+            </a>
+          </div>
+          <div class="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {productosDe(c.slug).map((p) => (
+              <TarjetaProducto producto={p} />
+            ))}
+          </div>
+        </section>
+      ))
+    }
+  </div>
+
+  <LlamadoCotizar
+    titulo="¿No encuentras lo que buscas?"
+    texto="Si lo puedes imaginar, lo podemos fabricar. Envíanos una foto, un plano o una idea."
+  />
+</BaseLayout>

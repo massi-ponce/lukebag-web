@@ -1,0 +1,58 @@
+---
+// Esta página se genera automáticamente una vez por cada categoría del catálogo.
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import EncabezadoPagina from "../../components/EncabezadoPagina.astro";
+import TarjetaProducto from "../../components/TarjetaProducto.astro";
+import LlamadoCotizar from "../../components/LlamadoCotizar.astro";
+import { categorias, productosDe, type Categoria } from "../../data/catalogo";
+import { url } from "../../lib/rutas";
+
+export function getStaticPaths() {
+  return categorias.map((c) => ({
+    params: { categoria: c.slug },
+    props: { cat: c },
+  }));
+}
+
+const { cat } = Astro.props as { cat: Categoria };
+const lista = productosDe(cat.slug);
+---
+
+<BaseLayout titulo={cat.nombre} descripcion={cat.descripcion}>
+  <EncabezadoPagina
+    etiqueta={cat.linea === "industrial" ? "Línea industrial" : "Línea textil"}
+    titulo={cat.nombre}
+    bajada={cat.descripcion}
+  >
+    <nav class="mt-8 flex flex-wrap gap-2" aria-label="Categorías">
+      {
+        categorias.map((c) => (
+          <a
+            href={url(`/catalogo/${c.slug}/`)}
+            class:list={[
+              "rounded-full border px-4 py-2 text-sm transition",
+              c.slug === cat.slug
+                ? "border-marca bg-marca text-white"
+                : "border-white/20 text-neutral-300 hover:border-marca hover:text-white",
+            ]}
+          >
+            {c.nombre}
+          </a>
+        ))
+      }
+    </nav>
+  </EncabezadoPagina>
+
+  <section class="mx-auto max-w-7xl px-4 py-16 sm:px-6">
+    <p class="text-sm text-neutral-500">
+      <a href={url("/catalogo/")} class="hover:text-neutral-900">Catálogo</a> / {
+        cat.nombre
+      }
+    </p>
+    <div class="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      {lista.map((p) => <TarjetaProducto producto={p} />)}
+    </div>
+  </section>
+
+  <LlamadoCotizar />
+</BaseLayout>
